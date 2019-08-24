@@ -50,10 +50,30 @@ public class Calc {
         }
     }
 
+    public static void Boobs() {
+        String answer;
+
+        Scanner boobsInput = new Scanner(System.in);  // Create a Scanner object
+
+        System.out.println("Your choice is ASCII boobs.");
+        System.out.println("Would you give me \"A\" grade for the first task? (y/n)");
+        answer = boobsInput.nextLine();
+
+        switch (answer) {
+            case "y":
+                System.out.println("( . ) ( . )");
+                break;
+            case "n":
+                System.out.println("No boobs for you!");
+                break;
+            default:
+                System.out.println("Invalid input.");
+        }
+    }
+
     public static void main(String[] args)
     {
         Integer keyInput;
-
 
         Scanner input = new Scanner(System.in);  // Create a Scanner object
         System.out.println("Enter \"1\" if you want just sum of 2 predefined ints.");
@@ -68,6 +88,9 @@ public class Calc {
                 break;
             case 2:
                 SimpleCalc();
+                break;
+            case 3:
+                Boobs();
                 break;
             default:
                 System.out.println("Invalid input.");
