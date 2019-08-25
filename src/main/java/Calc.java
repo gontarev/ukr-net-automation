@@ -1,7 +1,7 @@
 import java.util.Scanner;  // Import the Scanner class
 
 public class Calc {
-
+    // Method for simple addition of two predefined numbers
     public static void SimpleSum() {
         // Variables definition
         Integer a=1;
@@ -13,7 +13,7 @@ public class Calc {
         System.out.println("First number is " + a + " and the second is " + b + ".");
         System.out.println("The sum is: " + sum);
     }
-
+    // Method for a simple calc
     public static void SimpleCalc() {
         // Variables initialization
         Integer a;
@@ -25,7 +25,7 @@ public class Calc {
         Scanner calcInput = new Scanner(System.in);
 
         // Output
-        System.out.println("Your choice is simple calc.");
+        System.out.println("Your choice is a simple calc.");
         System.out.println("It can only operate simple operations with 2 int numbers.");
         // Prompt for a required operation
         System.out.println("Enter operation (+, -, *. /):");
@@ -59,7 +59,7 @@ public class Calc {
                 System.out.println("Invalid operation.");
         }
     }
-
+    // Method to call boobs
     public static void Boobs() {
         // Variables initialization
         String answer;
