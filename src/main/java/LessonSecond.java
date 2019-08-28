@@ -86,7 +86,7 @@ public class LessonSecond {
         System.out.println("Even elements will be placed first, and odd after them.");
         System.out.println("Predefined array is: " + Arrays.toString(arrayToTransform));
 
-        // array transformation with even elements placed first correctrly and odd elements next at inverted order
+        // array transformation with even elements placed first correctly and odd elements next at inverted order
         for (int i = 1 ; i < arrayToTransform.length ; i++) {
             for (int j = i; j > 0; j--) {
                 if (arrayToTransform[j - 1] % 2 == 1) {
