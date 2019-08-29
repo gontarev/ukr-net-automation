@@ -69,12 +69,11 @@ public class LessonSecond {
                 }
         }
 
-        // merging even and odd arrays in final array
-        int[] arrayTransformed = new int[arrayEven.length + arrayOdd.length];
-        System.arraycopy(arrayEven, 0, arrayTransformed, 0, arrayEven.length);
-        System.arraycopy(arrayOdd, 0, arrayTransformed, arrayEven.length, arrayOdd.length);
+        // merging even and odd arrays into original array replacing its value
+        System.arraycopy(arrayEven, 0, arrayToTransform, 0, arrayEven.length);
+        System.arraycopy(arrayOdd, 0, arrayToTransform, arrayEven.length, arrayOdd.length);
 
-        System.out.println("Transformed weirdest way array is: " + Arrays.toString(arrayTransformed));
+        System.out.println("Transformed weirdest way array is: " + Arrays.toString(arrayToTransform));
     }
 
     public static void weirdEvenOddArrayTransformation() {
