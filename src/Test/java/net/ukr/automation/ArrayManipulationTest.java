@@ -24,18 +24,18 @@ public class ArrayManipulationTest {
     @Test
     public void overloadedEvenOddArrayTransformationTest()
     {
-        Assert.assertEquals(Arrays.toString(at.overloadedEvenOddArrayTransformation(input)), Arrays.toString(output));
+        Assert.assertEquals(Arrays.toString(output), Arrays.toString(at.overloadedEvenOddArrayTransformation(input)));
     }
 
     @Test
     public void lightEvenOddArrayTransformationTest()
     {
-        Assert.assertEquals(Arrays.toString(at.lightEvenOddArrayTransformation(input2)), Arrays.toString(output2));
+        Assert.assertEquals(Arrays.toString(output2), Arrays.toString(at.lightEvenOddArrayTransformation(input2)));
     }
 
     @Test
     public void ArraySumOfElementsTest()
     {
-        Assert.assertEquals(Integer.toString(as.sumOfArrayElements(input2)), Integer.toString(sum));
+        Assert.assertEquals(Integer.toString(sum), Integer.toString(as.sumOfArrayElements(input2)));
     }
 }
