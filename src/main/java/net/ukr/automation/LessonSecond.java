@@ -74,7 +74,7 @@ public class LessonSecond {
 
     public static void weirdEvenOddArrayTransformation() {
         // array to transform definition
-        int[] arrayToTransform = new int[]{3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3, 2, 3, 8, 4, 6, 2, 6, 4, 3, 3, 8, 3, 2, 7, 9, 5};
+        int[] arrayToTransform = new int[]{28, -39,	-36, 45, 49, 38, -62, -1, -8, -63, 11, 34, 80, -58,	23,	40,	32, -57, 2,	58,	41,	-71, -23, 80, 54, -36, -13,	-56, 95, -97};
         int temp;
 
         System.out.println("You choosed to transform the array weird shit way.");
