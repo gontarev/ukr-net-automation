@@ -1,3 +1,5 @@
+package net.ukr.automation;
+
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -36,21 +38,15 @@ public class LessonSecond {
             if (arrayToTransform[i] % 2 == 0) {
                 arrayEvenSize ++;
             }
+            // get number of odd elements of original array to define size of array for odd elements
+            else arrayOddSize ++;
         }
 
         System.out.println("Number of even elements: " + arrayEvenSize);
-        // defining array of even elements of original array
-        int arrayEven[] = new int[arrayEvenSize];
-
-        // get number of odd elements of original array to define size of array for odd elements
-        for (int i = 0 ; i < arrayToTransform.length ; i++) {
-            if (arrayToTransform[i] % 2 == 1) {
-                arrayOddSize ++;
-            }
-        }
-
         System.out.println("Number of odd elements: " + arrayOddSize);
 
+        // defining array of even elements of original array
+        int arrayEven[] = new int[arrayEvenSize];
         // defining array of odd elements of original array
         int arrayOdd[] = new int[arrayOddSize];
 
@@ -88,7 +84,7 @@ public class LessonSecond {
         // array transformation with even elements placed first correctly and odd elements next at inverted order
         for (int i = 1 ; i < arrayToTransform.length ; i++) {
             for (int j = i; j > 0; j--) {
-                if (arrayToTransform[j - 1] % 2 == 1) {
+                if (arrayToTransform[j - 1] % 2 != 0) {
                     temp = arrayToTransform[j - 1];
                     arrayToTransform[j - 1] = arrayToTransform[j];
                     arrayToTransform[j] = temp;
@@ -99,7 +95,7 @@ public class LessonSecond {
         // fix for inverted positions of odd elements to make their order correspond to original array order
         for (int i = 1 ; i < arrayToTransform.length ; i++) {
             for (int j = i; j > 0; j--) {
-                if (arrayToTransform[j - 1] % 2 == 1) {
+                if (arrayToTransform[j - 1] % 2 != 0) {
                     temp = arrayToTransform[j - 1];
                     arrayToTransform[j - 1] = arrayToTransform[j];
                     arrayToTransform[j] = temp;

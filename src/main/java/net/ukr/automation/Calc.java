@@ -1,4 +1,6 @@
-import java.util.Scanner;  // Import the Scanner class
+package net.ukr.automation;
+
+import java.util.Scanner;
 
 public class Calc {
     // Method for simple addition of two predefined numbers
