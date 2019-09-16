@@ -4,7 +4,6 @@ import net.ukr.automation.transformations.ArrayEvenOddTransformation;
 import net.ukr.automation.transformations.ArraySumOfElements;
 import org.junit.Assert;
 import org.junit.Test;
-
 import java.util.Arrays;
 
 public class ArrayManipulationTest {
