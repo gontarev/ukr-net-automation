@@ -6,13 +6,15 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import static org.hamcrest.CoreMatchers.containsString;
 
-public class RegistrationPage {
+public class TestRegistrationPage {
     private WebDriver driver = new ChromeDriver();
     private WebDriverWait wait = new WebDriverWait(driver, 10);
     Actions actions = new Actions(driver);
@@ -31,23 +33,23 @@ public class RegistrationPage {
     public void testLanguageButtons() {
         driver.navigate().to("https://accounts.ukr.net/registration");
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div/header/div/div[2]/button[1]/span[1]")));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div/header/div/div[2]/button[2]/span[1]")));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div/header/div/div[2]/button[3]/span[1]")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(1) > .header__lang-long-name")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(2) > .header__lang-long-name")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(3) > .header__lang-long-name")));
 
-        Assert.assertTrue(driver.findElement(By.xpath("/html/body/div/div/header/div/div[2]/button[1]/span[1]")).isDisplayed());
-        Assert.assertTrue(driver.findElement(By.xpath("/html/body/div/div/header/div/div[2]/button[2]/span[1]")).isDisplayed());
-        Assert.assertTrue(driver.findElement(By.xpath("/html/body/div/div/header/div/div[2]/button[3]/span[1]")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.cssSelector("button:nth-of-type(1) > .header__lang-long-name")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.cssSelector("button:nth-of-type(2) > .header__lang-long-name")).isDisplayed());
+        Assert.assertTrue(driver.findElement(By.cssSelector("button:nth-of-type(3) > .header__lang-long-name")).isDisplayed());
     }
 
     @Test
     public void testLanguageButtonsColor() {
         driver.navigate().to("https://accounts.ukr.net/registration");
 
-        driver.findElement(By.xpath("/html/body/div/div/header/div/div[2]/button[1]/span[1]")).click();
-        String activeButtonUaColor = driver.findElement(By.xpath("/html/body/div/div/header/div/div[2]/button[1]/span[1]")).getCssValue("color");
-        String inactiveButtonRuColor = driver.findElement(By.xpath("/html/body/div/div/header/div/div[2]/button[2]/span[1]")).getCssValue("color");
-        String inactiveButtonEnColor = driver.findElement(By.xpath("/html/body/div/div/header/div/div[2]/button[3]/span[1]")).getCssValue("color");
+        driver.findElement(By.cssSelector("button:nth-of-type(1) > .header__lang-long-name")).click();
+        String activeButtonUaColor = driver.findElement(By.cssSelector("button:nth-of-type(1) > .header__lang-long-name")).getCssValue("color");
+        String inactiveButtonRuColor = driver.findElement(By.cssSelector("button:nth-of-type(2) > .header__lang-long-name")).getCssValue("color");
+        String inactiveButtonEnColor = driver.findElement(By.cssSelector("button:nth-of-type(3) > .header__lang-long-name")).getCssValue("color");
 
         Assert.assertEquals("rgba(52, 56, 64, 1)", activeButtonUaColor);
         Assert.assertEquals("rgba(102, 153, 0, 1)", inactiveButtonRuColor);
@@ -58,13 +60,13 @@ public class RegistrationPage {
     public void testAccountNameHintAppearing() {
         driver.navigate().to("https://accounts.ukr.net/registration");
 
-        actions.clickAndHold(driver.findElement(By.xpath("//*[@id=\"id-login\"]"))).release().build().perform();
-        driver.findElement(By.xpath("//*[@id=\"id-login\"]")).sendKeys("a");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div/main/form/section[1]/div/div")));
+        actions.clickAndHold(driver.findElement(By.cssSelector("input#id-login"))).release().build().perform();
+        driver.findElement(By.cssSelector("input#id-login")).sendKeys("a");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".login-suggestions")));
 
-        String hintErrorColor = driver.findElement(By.xpath("/html/body/div/div/main/form/section[1]/div/div/p[1]")).getCssValue("color");
-        String hintTextColor = driver.findElement(By.xpath("/html/body/div/div/main/form/section[1]/div/div/p[2]")).getCssValue("color");
-        String hintSuggestionColor = driver.findElement(By.xpath("/html/body/div/div/main/form/section[1]/div/div/ul/li[1]")).getCssValue("color");
+        String hintErrorColor = driver.findElement(By.cssSelector(".login-suggestions__error")).getCssValue("color");
+        String hintTextColor = driver.findElement(By.cssSelector(".login-suggestions__title")).getCssValue("color");
+        String hintSuggestionColor = driver.findElement(By.cssSelector(".login-suggestions__list > li:nth-of-type(1)")).getCssValue("color");
 
         Assert.assertEquals("rgba(219, 75, 55, 1)", hintErrorColor);
         Assert.assertEquals("rgba(140, 148, 158, 1)", hintTextColor);
@@ -79,48 +81,44 @@ public class RegistrationPage {
         String hintTextRuDesired = "Ваши личные данные понадобятся для восстановления доступа к почте с помощью паспорта, если другие способы окажутся невозможными. Поэтому имя, фамилия и дата рождения, указываемые здесь, должны совпадать с вашими паспортными данными. В противном случае никто, даже мы, не сможет помочь вам – доступ к ящику будет утерян навсегда.";
         String hintTextEnDesired = "You should add your personal information to be able to regain access to your mailbox with your ID if any other recovery options become impossible. Your first name, last name and birthdate specified here, should match those in your ID. Otherwise, this option will also become unavailable, and nobody, not even us, would be capable of recovering access to your account – your mailbox will be permanently unavailable.";
 
-//        WebElement hint = driver.findElement(By.xpath("/html/body/div/div/main/form/section[3]/section[4]"));
 
-        driver.findElement(By.xpath("/html/body/div/div/header/div/div[2]/button[1]/span[1]")).click();
-        actions.clickAndHold(driver.findElement(By.xpath("//*[@id=\"id-first-name\"]"))).release().build().perform();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div/main/form/section[3]/section[4]")));
-        actions.clickAndHold(driver.findElement(By.xpath("//*[@id=\"id-login\"]"))).release().build().perform();
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("/html/body/div/div/main/form/section[3]/section[4]")));
+        driver.findElement(By.cssSelector("button:nth-of-type(1) > .header__lang-long-name")).click();
+        actions.clickAndHold(driver.findElement(By.cssSelector("input#id-first-name"))).release().build().perform();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".hint-box.hint-box_expand-x-to-left.hint-box_expand-y-to-bottom")));
+        actions.clickAndHold(driver.findElement(By.cssSelector("input#id-login"))).release().build().perform();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".hint-box.hint-box_expand-x-to-left.hint-box_expand-y-to-bottom")));
 
-        actions.clickAndHold(driver.findElement(By.xpath("/html/body/div/div/main/form/section[3]/section[1]/div/div[2]/input"))).release().build().perform();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div/main/form/section[3]/section[4]")));
-        actions.clickAndHold(driver.findElement(By.xpath("//*[@id=\"id-login\"]"))).release().build().perform();
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("/html/body/div/div/main/form/section[3]/section[4]")));
+        actions.clickAndHold(driver.findElement(By.cssSelector("form .input-group:nth-child(2) .form__field:nth-of-type(2) .input-default__input"))).release().build().perform();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".hint-box.hint-box_expand-x-to-left.hint-box_expand-y-to-bottom")));
+        actions.clickAndHold(driver.findElement(By.cssSelector("input#id-login"))).release().build().perform();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".hint-box.hint-box_expand-x-to-left.hint-box_expand-y-to-bottom")));
 
-        actions.clickAndHold(driver.findElement(By.xpath("//*[@id=\"id-birth-day\"]"))).release().build().perform();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div/main/form/section[3]/section[4]")));
-        actions.clickAndHold(driver.findElement(By.xpath("//*[@id=\"id-login\"]"))).release().build().perform();
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("/html/body/div/div/main/form/section[3]/section[4]")));
+        actions.clickAndHold(driver.findElement(By.cssSelector("input#id-birth-day"))).release().build().perform();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".hint-box.hint-box_expand-x-to-left.hint-box_expand-y-to-bottom")));
+        actions.clickAndHold(driver.findElement(By.cssSelector("input#id-login"))).release().build().perform();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".hint-box.hint-box_expand-x-to-left.hint-box_expand-y-to-bottom")));
 
-        actions.clickAndHold(driver.findElement(By.xpath("/html/body/div/div/main/form/section[3]/section[2]/div/section/div"))).release().build().perform();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div/main/form/section[3]/section[4]")));
-        actions.clickAndHold(driver.findElement(By.xpath("//*[@id=\"id-login\"]"))).release().build().perform();
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("/html/body/div/div/main/form/section[3]/section[4]")));
+        actions.clickAndHold(driver.findElement(By.cssSelector(".input-select__target"))).release().build().perform();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".hint-box.hint-box_expand-x-to-left.hint-box_expand-y-to-bottom")));
+        actions.clickAndHold(driver.findElement(By.cssSelector("input#id-login"))).release().build().perform();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".hint-box.hint-box_expand-x-to-left.hint-box_expand-y-to-bottom")));
 
-        actions.clickAndHold(driver.findElement(By.xpath("/html/body/div/div/main/form/section[3]/section[2]/div/div[2]/input"))).release().build().perform();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div/main/form/section[3]/section[4]")));
+        actions.clickAndHold(driver.findElement(By.cssSelector("form .form__field:nth-child(3) .input-default__input"))).release().build().perform();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".hint-box.hint-box_expand-x-to-left.hint-box_expand-y-to-bottom")));
 
-        String hintTextUkActual = driver.findElement(By.xpath("/html/body/div/div/main/form/section[3]/section[4]")).getText();
+        String hintTextUkActual = driver.findElement(By.cssSelector(".hint-box.hint-box_expand-x-to-left.hint-box_expand-y-to-bottom")).getText();
 
-        driver.findElement(By.xpath("/html/body/div/div/header/div/div[2]/button[2]/span[1]")).click();
-        actions.clickAndHold(driver.findElement(By.xpath("/html/body/div/div/main/form/section[3]/section[2]/div/div[2]/input"))).release().build().perform();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div/main/form/section[3]/section[4]")));
+        driver.findElement(By.cssSelector("button:nth-of-type(2) > .header__lang-long-name")).click();
+        actions.clickAndHold(driver.findElement(By.cssSelector("input#id-first-name"))).release().build().perform();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".hint-box.hint-box_expand-x-to-left.hint-box_expand-y-to-bottom")));
 
-        String hintTextRuActual = driver.findElement(By.xpath("/html/body/div/div/main/form/section[3]/section[4]")).getText();
+        String hintTextRuActual = driver.findElement(By.cssSelector(".hint-box.hint-box_expand-x-to-left.hint-box_expand-y-to-bottom")).getText();
 
-        driver.findElement(By.xpath("/html/body/div/div/header/div/div[2]/button[3]/span[1]")).click();
-        actions.clickAndHold(driver.findElement(By.xpath("/html/body/div/div/main/form/section[3]/section[2]/div/div[2]/input"))).release().build().perform();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div/div/main/form/section[3]/section[4]")));
+        driver.findElement(By.cssSelector("button:nth-of-type(3) > .header__lang-long-name")).click();
+        actions.clickAndHold(driver.findElement(By.cssSelector("input#id-first-name"))).release().build().perform();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".hint-box.hint-box_expand-x-to-left.hint-box_expand-y-to-bottom")));
 
-        String hintTextEnActual = driver.findElement(By.xpath("/html/body/div/div/main/form/section[3]/section[4]")).getText();
-
-        // WTF? Not working: no such element: Unable to locate element: {"method":"xpath","selector":"/html/body/div/div/main/form/section[3]/section[4]"}
-//        String hintTextEnActual = hint.getText();
+        String hintTextEnActual = driver.findElement(By.cssSelector(".hint-box.hint-box_expand-x-to-left.hint-box_expand-y-to-bottom")).getText();
 
         Assert.assertEquals(hintTextUkDesired, hintTextUkActual);
         Assert.assertEquals(hintTextRuDesired, hintTextRuActual);
@@ -327,5 +325,131 @@ public class RegistrationPage {
         Assert.assertEquals(mobileErrorTextEnDesired, mobileErrorTextEn);
 
 
+    }
+
+    @Test
+    public void testPrivacyAgreementAndTerms() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        driver.navigate().to("https://accounts.ukr.net/registration");
+        String parentHandle = driver.getWindowHandle(); // get the registration page handle
+
+        // test for Privacy agreement Ua
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(1) > .header__lang-long-name")));
+        driver.findElement(By.cssSelector("button:nth-of-type(1) > .header__lang-long-name")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form [data-tooltip]")));
+        driver.findElement(By.cssSelector("form [data-tooltip]")).click(); // click some link that opens a new window
+
+        for (String winHandle : driver.getWindowHandles()) {
+            driver.switchTo().window(winHandle); // switch focus of WebDriver to the next found window handle (that's your newly opened window)
+        }
+
+        wait.equals(js.executeScript("return document.readyState").equals("complete"));
+        String agreementPrivacyUrlUa = driver.getCurrentUrl();
+        String logoUa = driver.findElement(By.cssSelector("img")).getAttribute("src");
+        String h2Ua = driver.findElement(By.cssSelector("h2")).getText();
+        driver.close();
+        driver.switchTo().window(parentHandle);
+
+        // test for Privacy agreement Ru
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(2) > .header__lang-long-name")));
+        driver.findElement(By.cssSelector("button:nth-of-type(2) > .header__lang-long-name")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form [data-tooltip]")));
+        driver.findElement(By.cssSelector("form [data-tooltip]")).click(); // click some link that opens a new window
+
+        for (String winHandle : driver.getWindowHandles()) {
+            driver.switchTo().window(winHandle); // switch focus of WebDriver to the next found window handle (that's your newly opened window)
+        }
+
+        wait.equals(js.executeScript("return document.readyState").equals("complete"));
+        String agreementPrivacyUrlRu = driver.getCurrentUrl();
+        String logoRu = driver.findElement(By.cssSelector("img")).getAttribute("src");
+        String h2Ru = driver.findElement(By.cssSelector("h2")).getText();
+        driver.close();
+        driver.switchTo().window(parentHandle);
+
+        // test for Privacy agreement En
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(3) > .header__lang-long-name")));
+        driver.findElement(By.cssSelector("button:nth-of-type(3) > .header__lang-long-name")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form [data-tooltip]")));
+        driver.findElement(By.cssSelector("form [data-tooltip]")).click(); // click some link that opens a new window
+
+        for (String winHandle : driver.getWindowHandles()) {
+            driver.switchTo().window(winHandle); // switch focus of WebDriver to the next found window handle (that's your newly opened window)
+        }
+
+        wait.equals(js.executeScript("return document.readyState").equals("complete"));
+        String agreementPrivacyUrlEn = driver.getCurrentUrl();
+        String logoEn = driver.findElement(By.cssSelector("img")).getAttribute("src");
+        String h2En = driver.findElement(By.cssSelector("h2")).getText();
+        driver.close();
+        driver.switchTo().window(parentHandle);
+
+
+        // test for Terms of service Uk
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(1) > .header__lang-long-name")));
+        driver.findElement(By.cssSelector("button:nth-of-type(1) > .header__lang-long-name")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".confirm-terms [data-tooltip]")));
+        driver.findElement(By.cssSelector(".confirm-terms [data-tooltip]")).click(); // click some link that opens a new window
+
+        for (String winHandle : driver.getWindowHandles()) {
+            driver.switchTo().window(winHandle); // switch focus of WebDriver to the next found window handle (that's your newly opened window)
+        }
+
+        wait.equals(js.executeScript("return document.readyState").equals("complete"));
+        String TermsOfServiceUrlUa = driver.getCurrentUrl();
+        String h3Ua = driver.findElement(By.cssSelector("h3")).getText();
+        driver.close();
+        driver.switchTo().window(parentHandle);
+
+        // test for Terms of service Ru
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(2) > .header__lang-long-name")));
+        driver.findElement(By.cssSelector("button:nth-of-type(2) > .header__lang-long-name")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".confirm-terms [data-tooltip]")));
+        driver.findElement(By.cssSelector(".confirm-terms [data-tooltip]")).click(); // click some link that opens a new window
+
+        for (String winHandle : driver.getWindowHandles()) {
+            driver.switchTo().window(winHandle); // switch focus of WebDriver to the next found window handle (that's your newly opened window)
+        }
+
+        wait.equals(js.executeScript("return document.readyState").equals("complete"));
+        String TermsOfServiceUrlRu = driver.getCurrentUrl();
+        String h3Ru = driver.findElement(By.cssSelector("h3")).getText();
+        driver.close();
+        driver.switchTo().window(parentHandle);
+
+        // test for Terms of service En
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(3) > .header__lang-long-name")));
+        driver.findElement(By.cssSelector("button:nth-of-type(3) > .header__lang-long-name")).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".confirm-terms [data-tooltip]")));
+        driver.findElement(By.cssSelector(".confirm-terms [data-tooltip]")).click(); // click some link that opens a new window
+
+        for (String winHandle : driver.getWindowHandles()) {
+            driver.switchTo().window(winHandle); // switch focus of WebDriver to the next found window handle (that's your newly opened window)
+        }
+
+        wait.equals(js.executeScript("return document.readyState").equals("complete"));
+        String TermsOfServiceUrlEn = driver.getCurrentUrl();
+        String h3En = driver.findElement(By.cssSelector("h3")).getText();
+        driver.close();
+        driver.switchTo().window(parentHandle);
+
+
+        Assert.assertEquals("https://www.ukr.net/terms/", agreementPrivacyUrlUa);
+        Assert.assertThat(logoUa, containsString("/img/terms-logo-ua.gif"));
+        Assert.assertEquals("Угода про конфіденційність", h2Ua);
+        Assert.assertEquals("https://www.ukr.net/ru/terms/", agreementPrivacyUrlRu);
+        Assert.assertThat(logoRu, containsString("/img/terms-logo-ru.gif"));
+        Assert.assertEquals("Соглашение о конфиденциальности", h2Ru);
+        Assert.assertEquals("https://www.ukr.net/terms/", agreementPrivacyUrlEn);
+        Assert.assertThat(logoEn, containsString("/img/terms-logo-ua.gif"));
+        Assert.assertEquals("Угода про конфіденційність", h2En);
+
+        Assert.assertEquals("https://mail.ukr.net/terms_uk.html", TermsOfServiceUrlUa);
+        Assert.assertEquals("Угода про використання електронної пошти FREEMAIL (mail.ukr.net)", h3Ua);
+        Assert.assertEquals("https://mail.ukr.net/terms_ru.html", TermsOfServiceUrlRu);
+        Assert.assertEquals("Соглашение об использовании электронной почты FREEMAIL (mail.ukr.net)", h3Ru);
+        Assert.assertEquals("https://mail.ukr.net/terms_en.html", TermsOfServiceUrlEn);
+        Assert.assertEquals("Угода про використання електронної пошти FREEMAIL (mail.ukr.net)", h3En);
     }
 }
