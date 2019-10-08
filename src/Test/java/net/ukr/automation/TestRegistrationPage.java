@@ -1,27 +1,34 @@
 package net.ukr.automation;
 
-import io.github.bonigarcia.wdm.ChromeDriverManager;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.*;
+import org.junit.rules.ExpectedException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.ArrayList;
+
 import static org.hamcrest.CoreMatchers.containsString;
 
 public class TestRegistrationPage {
-    private WebDriver driver = new ChromeDriver();
-    private WebDriverWait wait = new WebDriverWait(driver, 10);
-    Actions actions = new Actions(driver);
+    private WebDriver driver;
+
+    @BeforeClass
+    public static void setupClass() {
+        WebDriverManager.chromedriver().setup();
+    }
 
     @Before
     public void start() {
-        ChromeDriverManager.chromedriver().setup();
+        driver = new ChromeDriver();
     }
 
     @After
@@ -31,6 +38,8 @@ public class TestRegistrationPage {
 
     @Test
     public void testLanguageButtons() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+
         driver.navigate().to("https://accounts.ukr.net/registration");
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(1) > .header__lang-long-name")));
@@ -58,6 +67,9 @@ public class TestRegistrationPage {
 
     @Test
     public void testAccountNameHintAppearing() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        Actions actions = new Actions(driver);
+
         driver.navigate().to("https://accounts.ukr.net/registration");
 
         actions.clickAndHold(driver.findElement(By.cssSelector("input#id-login"))).release().build().perform();
@@ -75,6 +87,9 @@ public class TestRegistrationPage {
 
     @Test
     public void testPersonalInfoHintAppearing() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        Actions actions = new Actions(driver);
+
         driver.navigate().to("https://accounts.ukr.net/registration");
 
         String hintTextUkDesired = "Ваші особисті дані знадобляться для відновлення доступу до пошти за допомогою паспорта, якщо інші способи виявляться неможливими. Тому ім'я, прізвище і дата народження, вказані тут, повинні збігатися з вашими паспортними даними. Інакше ніхто, навіть ми, не зможе допомогти вам – доступ до пошти буде втрачено назавжди.";
@@ -127,6 +142,9 @@ public class TestRegistrationPage {
 
     @Test
     public void testEmptyFields() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        Actions actions = new Actions(driver);
+
         driver.navigate().to("https://accounts.ukr.net/registration");
 
         String accountNameErrorTextColor;
@@ -329,6 +347,7 @@ public class TestRegistrationPage {
 
     @Test
     public void testPrivacyAgreementAndTerms() {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
         driver.navigate().to("https://accounts.ukr.net/registration");
@@ -339,11 +358,10 @@ public class TestRegistrationPage {
         driver.findElement(By.cssSelector("button:nth-of-type(1) > .header__lang-long-name")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form [data-tooltip]")));
         driver.findElement(By.cssSelector("form [data-tooltip]")).click(); // click some link that opens a new window
-
-        for (String winHandle : driver.getWindowHandles()) {
-            driver.switchTo().window(winHandle); // switch focus of WebDriver to the next found window handle (that's your newly opened window)
-        }
-
+        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+        ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+        System.out.println(tabs.toString());
+        driver.switchTo().window(tabs.get(1));
         wait.equals(js.executeScript("return document.readyState").equals("complete"));
         String agreementPrivacyUrlUa = driver.getCurrentUrl();
         String logoUa = driver.findElement(By.cssSelector("img")).getAttribute("src");
@@ -356,11 +374,9 @@ public class TestRegistrationPage {
         driver.findElement(By.cssSelector("button:nth-of-type(2) > .header__lang-long-name")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form [data-tooltip]")));
         driver.findElement(By.cssSelector("form [data-tooltip]")).click(); // click some link that opens a new window
-
-        for (String winHandle : driver.getWindowHandles()) {
-            driver.switchTo().window(winHandle); // switch focus of WebDriver to the next found window handle (that's your newly opened window)
-        }
-
+        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+        tabs = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1));
         wait.equals(js.executeScript("return document.readyState").equals("complete"));
         String agreementPrivacyUrlRu = driver.getCurrentUrl();
         String logoRu = driver.findElement(By.cssSelector("img")).getAttribute("src");
@@ -373,11 +389,9 @@ public class TestRegistrationPage {
         driver.findElement(By.cssSelector("button:nth-of-type(3) > .header__lang-long-name")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form [data-tooltip]")));
         driver.findElement(By.cssSelector("form [data-tooltip]")).click(); // click some link that opens a new window
-
-        for (String winHandle : driver.getWindowHandles()) {
-            driver.switchTo().window(winHandle); // switch focus of WebDriver to the next found window handle (that's your newly opened window)
-        }
-
+        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+        tabs = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1));
         wait.equals(js.executeScript("return document.readyState").equals("complete"));
         String agreementPrivacyUrlEn = driver.getCurrentUrl();
         String logoEn = driver.findElement(By.cssSelector("img")).getAttribute("src");
@@ -391,11 +405,9 @@ public class TestRegistrationPage {
         driver.findElement(By.cssSelector("button:nth-of-type(1) > .header__lang-long-name")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".confirm-terms [data-tooltip]")));
         driver.findElement(By.cssSelector(".confirm-terms [data-tooltip]")).click(); // click some link that opens a new window
-
-        for (String winHandle : driver.getWindowHandles()) {
-            driver.switchTo().window(winHandle); // switch focus of WebDriver to the next found window handle (that's your newly opened window)
-        }
-
+        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+        tabs = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1));
         wait.equals(js.executeScript("return document.readyState").equals("complete"));
         String TermsOfServiceUrlUa = driver.getCurrentUrl();
         String h3Ua = driver.findElement(By.cssSelector("h3")).getText();
@@ -407,11 +419,9 @@ public class TestRegistrationPage {
         driver.findElement(By.cssSelector("button:nth-of-type(2) > .header__lang-long-name")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".confirm-terms [data-tooltip]")));
         driver.findElement(By.cssSelector(".confirm-terms [data-tooltip]")).click(); // click some link that opens a new window
-
-        for (String winHandle : driver.getWindowHandles()) {
-            driver.switchTo().window(winHandle); // switch focus of WebDriver to the next found window handle (that's your newly opened window)
-        }
-
+        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+        tabs = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1));
         wait.equals(js.executeScript("return document.readyState").equals("complete"));
         String TermsOfServiceUrlRu = driver.getCurrentUrl();
         String h3Ru = driver.findElement(By.cssSelector("h3")).getText();
@@ -423,11 +433,9 @@ public class TestRegistrationPage {
         driver.findElement(By.cssSelector("button:nth-of-type(3) > .header__lang-long-name")).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".confirm-terms [data-tooltip]")));
         driver.findElement(By.cssSelector(".confirm-terms [data-tooltip]")).click(); // click some link that opens a new window
-
-        for (String winHandle : driver.getWindowHandles()) {
-            driver.switchTo().window(winHandle); // switch focus of WebDriver to the next found window handle (that's your newly opened window)
-        }
-
+        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+        tabs = new ArrayList<String>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(1));
         wait.equals(js.executeScript("return document.readyState").equals("complete"));
         String TermsOfServiceUrlEn = driver.getCurrentUrl();
         String h3En = driver.findElement(By.cssSelector("h3")).getText();
