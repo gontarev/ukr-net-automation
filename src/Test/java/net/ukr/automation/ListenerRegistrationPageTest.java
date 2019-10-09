@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -18,8 +17,8 @@ import java.util.ArrayList;
 import static org.hamcrest.CoreMatchers.containsString;
 
 public class ListenerRegistrationPageTest {
-    EventFiringWebDriver edr;
-    WebDriverWait wait;
+    private EventFiringWebDriver edr;
+    private WebDriverWait wait;
 
     @Before
     public void start() {
@@ -41,9 +40,6 @@ public class ListenerRegistrationPageTest {
 
     @Test
     public void testPrivacyAgreementAndTerms() {
-        WebDriverWait wait = new WebDriverWait(edr, 10);
-        JavascriptExecutor js = (JavascriptExecutor) edr;
-
         edr.navigate().to("https://accounts.ukr.net/registration");
         String parentHandle = edr.getWindowHandle(); // get the registration page handle
 
@@ -53,10 +49,10 @@ public class ListenerRegistrationPageTest {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form [data-tooltip]")));
         edr.findElement(By.cssSelector("form [data-tooltip]")).click(); // click some link that opens a new window
         wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-        ArrayList<String> tabs = new ArrayList<String>(edr.getWindowHandles());
+        ArrayList<String> tabs = new ArrayList<>(edr.getWindowHandles());
         System.out.println(tabs.toString());
         edr.switchTo().window(tabs.get(1));
-        wait.equals(js.executeScript("return document.readyState").equals("complete"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("img")));
         String agreementPrivacyUrlUa = edr.getCurrentUrl();
         String logoUa = edr.findElement(By.cssSelector("img")).getAttribute("src");
         String h2Ua = edr.findElement(By.cssSelector("h2")).getText();
@@ -69,9 +65,9 @@ public class ListenerRegistrationPageTest {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form [data-tooltip]")));
         edr.findElement(By.cssSelector("form [data-tooltip]")).click(); // click some link that opens a new window
         wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-        tabs = new ArrayList<String>(edr.getWindowHandles());
+        tabs = new ArrayList<>(edr.getWindowHandles());
         edr.switchTo().window(tabs.get(1));
-        wait.equals(js.executeScript("return document.readyState").equals("complete"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("img")));
         String agreementPrivacyUrlRu = edr.getCurrentUrl();
         String logoRu = edr.findElement(By.cssSelector("img")).getAttribute("src");
         String h2Ru = edr.findElement(By.cssSelector("h2")).getText();
@@ -84,9 +80,9 @@ public class ListenerRegistrationPageTest {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form [data-tooltip]")));
         edr.findElement(By.cssSelector("form [data-tooltip]")).click(); // click some link that opens a new window
         wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-        tabs = new ArrayList<String>(edr.getWindowHandles());
+        tabs = new ArrayList<>(edr.getWindowHandles());
         edr.switchTo().window(tabs.get(1));
-        wait.equals(js.executeScript("return document.readyState").equals("complete"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("img")));
         String agreementPrivacyUrlEn = edr.getCurrentUrl();
         String logoEn = edr.findElement(By.cssSelector("img")).getAttribute("src");
         String h2En = edr.findElement(By.cssSelector("h2")).getText();
@@ -100,9 +96,9 @@ public class ListenerRegistrationPageTest {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".confirm-terms [data-tooltip]")));
         edr.findElement(By.cssSelector(".confirm-terms [data-tooltip]")).click(); // click some link that opens a new window
         wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-        tabs = new ArrayList<String>(edr.getWindowHandles());
+        tabs = new ArrayList<>(edr.getWindowHandles());
         edr.switchTo().window(tabs.get(1));
-        wait.equals(js.executeScript("return document.readyState").equals("complete"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h3")));
         String TermsOfServiceUrlUa = edr.getCurrentUrl();
         String h3Ua = edr.findElement(By.cssSelector("h3")).getText();
         edr.close();
@@ -114,9 +110,9 @@ public class ListenerRegistrationPageTest {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".confirm-terms [data-tooltip]")));
         edr.findElement(By.cssSelector(".confirm-terms [data-tooltip]")).click(); // click some link that opens a new window
         wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-        tabs = new ArrayList<String>(edr.getWindowHandles());
+        tabs = new ArrayList<>(edr.getWindowHandles());
         edr.switchTo().window(tabs.get(1));
-        wait.equals(js.executeScript("return document.readyState").equals("complete"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h3")));
         String TermsOfServiceUrlRu = edr.getCurrentUrl();
         String h3Ru = edr.findElement(By.cssSelector("h3")).getText();
         edr.close();
@@ -128,9 +124,9 @@ public class ListenerRegistrationPageTest {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".confirm-terms [data-tooltip]")));
         edr.findElement(By.cssSelector(".confirm-terms [data-tooltip]")).click(); // click some link that opens a new window
         wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-        tabs = new ArrayList<String>(edr.getWindowHandles());
+        tabs = new ArrayList<>(edr.getWindowHandles());
         edr.switchTo().window(tabs.get(1));
-        wait.equals(js.executeScript("return document.readyState").equals("complete"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h3")));
         String TermsOfServiceUrlEn = edr.getCurrentUrl();
         String h3En = edr.findElement(By.cssSelector("h3")).getText();
         edr.close();
