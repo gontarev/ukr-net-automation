@@ -70,3 +70,4 @@ fabric.properties
 lib/
 .gradle/
 build/
+/screenshots/
