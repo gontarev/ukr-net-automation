@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.containsString;
 
@@ -42,112 +43,53 @@ public class ListenerRegistrationPageTest {
     public void testPrivacyAgreementAndTerms() {
         edr.navigate().to("https://accounts.ukr.net/registration");
         String parentHandle = edr.getWindowHandle(); // get the registration page handle
+        ArrayList<String> agreementPrivacyUrl = new ArrayList<>();
+        ArrayList<String> agreementPrivacyUrlToBe = new ArrayList<>(Arrays.asList("https://www.ukr.net/terms/", "https://www.ukr.net/ru/terms/", "https://www.ukr.net/terms/"));
+        ArrayList<String> logo = new ArrayList<>();
+        ArrayList<String> logoToBe = new ArrayList<>(Arrays.asList("/img/terms-logo-ua.gif", "/img/terms-logo-ru.gif", "/img/terms-logo-ua.gif"));
+        ArrayList<String> h2 = new ArrayList<>();
+        ArrayList<String> h2ToBe = new ArrayList<>(Arrays.asList("Угода про конфіденційність", "Соглашение о конфиденциальности", "Угода про конфіденційність"));
+        ArrayList<String> TermsOfServiceUrl = new ArrayList<>();
+        ArrayList<String> TermsOfServiceUrlToBe = new ArrayList<>(Arrays.asList("https://mail.ukr.net/terms_uk.html",
+                "https://mail.ukr.net/terms_ru.html",
+                "https://mail.ukr.net/terms_en.html"));
+        ArrayList<String> h3 = new ArrayList<>();
+        ArrayList<String> h3ToBe = new ArrayList<>(Arrays.asList("Угода про використання електронної пошти FREEMAIL (mail.ukr.net)",
+                "Соглашение об использовании электронной почты FREEMAIL (mail.ukr.net)",
+                "Угода про використання електронної пошти FREEMAIL (mail.ukr.net)"));
+        ArrayList<String> tabs;
 
-        // test for Privacy agreement Ua
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(1) > .header__lang-long-name")));
-        edr.findElement(By.cssSelector("button:nth-of-type(1) > .header__lang-long-name")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form [data-tooltip]")));
-        edr.findElement(By.cssSelector("form [data-tooltip]")).click(); // click some link that opens a new window
-        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-        ArrayList<String> tabs = new ArrayList<>(edr.getWindowHandles());
-        System.out.println(tabs.toString());
-        edr.switchTo().window(tabs.get(1));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("img")));
-        String agreementPrivacyUrlUa = edr.getCurrentUrl();
-        String logoUa = edr.findElement(By.cssSelector("img")).getAttribute("src");
-        String h2Ua = edr.findElement(By.cssSelector("h2")).getText();
-        edr.close();
-        edr.switchTo().window(parentHandle);
+        for (int i = 0; i < 3; i++ ) {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(" + (i + 1) + ") > .header__lang-long-name")));
+            edr.findElement(By.cssSelector("button:nth-of-type(" + (i + 1) + ") > .header__lang-long-name")).click();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form [data-tooltip]")));
+            edr.findElement(By.cssSelector("form [data-tooltip]")).click(); // click some link that opens a new window
+            wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+            tabs = new ArrayList<>(edr.getWindowHandles());
+            edr.switchTo().window(tabs.get(1));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("img")));
+            agreementPrivacyUrl.add(edr.getCurrentUrl());
+            logo.add(edr.findElement(By.cssSelector("img")).getAttribute("src"));
+            h2.add(edr.findElement(By.cssSelector("h2")).getText());
+            edr.close();
+            edr.switchTo().window(parentHandle);
 
-        // test for Privacy agreement Ru
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(2) > .header__lang-long-name")));
-        edr.findElement(By.cssSelector("button:nth-of-type(2) > .header__lang-long-name")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form [data-tooltip]")));
-        edr.findElement(By.cssSelector("form [data-tooltip]")).click(); // click some link that opens a new window
-        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-        tabs = new ArrayList<>(edr.getWindowHandles());
-        edr.switchTo().window(tabs.get(1));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("img")));
-        String agreementPrivacyUrlRu = edr.getCurrentUrl();
-        String logoRu = edr.findElement(By.cssSelector("img")).getAttribute("src");
-        String h2Ru = edr.findElement(By.cssSelector("h2")).getText();
-        edr.close();
-        edr.switchTo().window(parentHandle);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".confirm-terms [data-tooltip]")));
+            edr.findElement(By.cssSelector(".confirm-terms [data-tooltip]")).click(); // click some link that opens a new window
+            wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+            tabs = new ArrayList<>(edr.getWindowHandles());
+            edr.switchTo().window(tabs.get(1));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h3")));
+            TermsOfServiceUrl.add(edr.getCurrentUrl());
+            h3.add(edr.findElement(By.cssSelector("h3")).getText());
+            edr.close();
+            edr.switchTo().window(parentHandle);
 
-        // test for Privacy agreement En
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(3) > .header__lang-long-name")));
-        edr.findElement(By.cssSelector("button:nth-of-type(3) > .header__lang-long-name")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("form [data-tooltip]")));
-        edr.findElement(By.cssSelector("form [data-tooltip]")).click(); // click some link that opens a new window
-        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-        tabs = new ArrayList<>(edr.getWindowHandles());
-        edr.switchTo().window(tabs.get(1));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("img")));
-        String agreementPrivacyUrlEn = edr.getCurrentUrl();
-        String logoEn = edr.findElement(By.cssSelector("img")).getAttribute("src");
-        String h2En = edr.findElement(By.cssSelector("h2")).getText();
-        edr.close();
-        edr.switchTo().window(parentHandle);
-
-
-        // test for Terms of service Uk
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(1) > .header__lang-long-name")));
-        edr.findElement(By.cssSelector("button:nth-of-type(1) > .header__lang-long-name")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".confirm-terms [data-tooltip]")));
-        edr.findElement(By.cssSelector(".confirm-terms [data-tooltip]")).click(); // click some link that opens a new window
-        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-        tabs = new ArrayList<>(edr.getWindowHandles());
-        edr.switchTo().window(tabs.get(1));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h3")));
-        String TermsOfServiceUrlUa = edr.getCurrentUrl();
-        String h3Ua = edr.findElement(By.cssSelector("h3")).getText();
-        edr.close();
-        edr.switchTo().window(parentHandle);
-
-        // test for Terms of service Ru
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(2) > .header__lang-long-name")));
-        edr.findElement(By.cssSelector("button:nth-of-type(2) > .header__lang-long-name")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".confirm-terms [data-tooltip]")));
-        edr.findElement(By.cssSelector(".confirm-terms [data-tooltip]")).click(); // click some link that opens a new window
-        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-        tabs = new ArrayList<>(edr.getWindowHandles());
-        edr.switchTo().window(tabs.get(1));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h3")));
-        String TermsOfServiceUrlRu = edr.getCurrentUrl();
-        String h3Ru = edr.findElement(By.cssSelector("h3")).getText();
-        edr.close();
-        edr.switchTo().window(parentHandle);
-
-        // test for Terms of service En
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(3) > .header__lang-long-name")));
-        edr.findElement(By.cssSelector("button:nth-of-type(3) > .header__lang-long-name")).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".confirm-terms [data-tooltip]")));
-        edr.findElement(By.cssSelector(".confirm-terms [data-tooltip]")).click(); // click some link that opens a new window
-        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-        tabs = new ArrayList<>(edr.getWindowHandles());
-        edr.switchTo().window(tabs.get(1));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h3")));
-        String TermsOfServiceUrlEn = edr.getCurrentUrl();
-        String h3En = edr.findElement(By.cssSelector("h3")).getText();
-        edr.close();
-        edr.switchTo().window(parentHandle);
-
-
-        Assert.assertEquals("https://www.ukr.net/terms/", agreementPrivacyUrlUa);
-        Assert.assertThat(logoUa, containsString("/img/terms-logo-ua.gif"));
-        Assert.assertEquals("Угода про конфіденційність", h2Ua);
-        Assert.assertEquals("https://www.ukr.net/ru/terms/", agreementPrivacyUrlRu);
-        Assert.assertThat(logoRu, containsString("/img/terms-logo-ru.gif"));
-        Assert.assertEquals("Соглашение о конфиденциальности", h2Ru);
-        Assert.assertEquals("https://www.ukr.net/terms/", agreementPrivacyUrlEn);
-        Assert.assertThat(logoEn, containsString("/img/terms-logo-ua.gif"));
-        Assert.assertEquals("Угода про конфіденційність", h2En);
-
-        Assert.assertEquals("https://mail.ukr.net/terms_uk.html", TermsOfServiceUrlUa);
-        Assert.assertEquals("Угода про використання електронної пошти FREEMAIL (mail.ukr.net)", h3Ua);
-        Assert.assertEquals("https://mail.ukr.net/terms_ru.html", TermsOfServiceUrlRu);
-        Assert.assertEquals("Соглашение об использовании электронной почты FREEMAIL (mail.ukr.net)", h3Ru);
-        Assert.assertEquals("https://mail.ukr.net/terms_en.html", TermsOfServiceUrlEn);
-        Assert.assertEquals("Угода про використання електронної пошти FREEMAIL (mail.ukr.net)", h3En);
+            Assert.assertEquals(agreementPrivacyUrlToBe.get(i), agreementPrivacyUrl.get(i));
+            Assert.assertThat(logo.get(i), containsString(logoToBe.get(i)));
+            Assert.assertEquals(h2ToBe.get(i), h2.get(i));
+            Assert.assertEquals(TermsOfServiceUrlToBe.get(i), TermsOfServiceUrl.get(i));
+            Assert.assertEquals(h3ToBe.get(i), h3.get(i));
+        }
     }
 }
