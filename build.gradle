@@ -1,6 +1,17 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "io.qameta.allure:allure-gradle:2.8.0"
+    }
+}
+
 plugins {
     id 'java'
 }
+
+apply plugin: 'io.qameta.allure'
 
 group 'net.ukr.automation'
 version '0.1'
@@ -17,4 +28,13 @@ dependencies {
     testImplementation ("io.github.bonigarcia:webdrivermanager:3.7.1")
     testImplementation ('net.lightbody.bmp:browsermob-core:2.1.5')
             { exclude module: 'selenium' }
+    testImplementation group: 'com.tngtech.java', name: 'junit-dataprovider', version: '1.12.0'
+}
+
+allure {
+    autoconfigure = true
+    version = '2.13.0'
+    useJUnit4 {
+        version = '2.13.0'
+    }
 }
