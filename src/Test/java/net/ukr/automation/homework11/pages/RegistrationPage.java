@@ -1,4 +1,4 @@
-package net.ukr.automation.homework10.pages;
+package net.ukr.automation.homework11.pages;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
@@ -28,7 +28,7 @@ public class RegistrationPage extends Page {
     }
 
     @Step
-    public void selectLanguage (String lang) {
+    public void selectLanguageLong(String lang) {
         switch (lang) {
             case ("uk"):
                 wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(1) > .header__lang-long-name"))).click();
@@ -38,6 +38,24 @@ public class RegistrationPage extends Page {
                 break;
             case ("en"):
                 wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(3) > .header__lang-long-name"))).click();
+                break;
+            default:
+                System.out.println("Invalid language code.");
+                break;
+        }
+    }
+
+    @Step
+    public void selectLanguageShort(String lang) {
+        switch (lang) {
+            case ("uk"):
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(1) > .header__lang-short-name"))).click();
+                break;
+            case ("ru"):
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(2) > .header__lang-short-name"))).click();
+                break;
+            case ("en"):
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(3) > .header__lang-short-name"))).click();
                 break;
             default:
                 System.out.println("Invalid language code.");

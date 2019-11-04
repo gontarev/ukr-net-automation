@@ -1,4 +1,4 @@
-package net.ukr.automation.homework10.pages;
+package net.ukr.automation.homework11.pages;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;

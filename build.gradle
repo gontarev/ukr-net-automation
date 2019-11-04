@@ -20,6 +20,7 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -29,6 +30,7 @@ dependencies {
     testImplementation ('net.lightbody.bmp:browsermob-core:2.1.5')
             { exclude module: 'selenium' }
     testImplementation group: 'com.tngtech.java', name: 'junit-dataprovider', version: '1.12.0'
+    testImplementation 'com.github.appium:java-client:7.2.0'
 }
 
 allure {

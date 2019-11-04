@@ -1,10 +1,10 @@
-package net.ukr.automation.homework10;
+package net.ukr.automation.homework11;
 
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
-import net.ukr.automation.homework10.data.LanguageData;
-import net.ukr.automation.homework10.data.TestData;
-import org.junit.*;
+import net.ukr.automation.homework11.data.LanguageData;
+import net.ukr.automation.homework11.data.TestData;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(DataProviderRunner.class)
@@ -13,7 +13,7 @@ public class TestRegistrationAgreements extends BaseTest {
     @Test
     @UseDataProvider(value = "localizationData", location = TestData.class)
     public void Test (LanguageData lang) {
-        app.selectRegistrationPageLanguage(lang.getLang());
+        app.selectRegistrationPageLanguageShort(lang.getLang());
         app.openPrivacyAgreementPage();
         app.comparePrivacyAgreementUrl(lang.getPrivacyAgreementUrl());
         app.comparePrivacyAgreementLogoImgSource(lang.getPrivacyAgreementLogoSource());
