@@ -28,34 +28,16 @@ public class RegistrationPage extends Page {
     }
 
     @Step
-    public void selectLanguageLong(String lang) {
+    public void selectLanguage(String lang) {
         switch (lang) {
             case ("uk"):
-                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(1) > .header__lang-long-name"))).click();
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(1)"))).click();
                 break;
             case ("ru"):
-                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(2) > .header__lang-long-name"))).click();
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(2)"))).click();
                 break;
             case ("en"):
-                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(3) > .header__lang-long-name"))).click();
-                break;
-            default:
-                System.out.println("Invalid language code.");
-                break;
-        }
-    }
-
-    @Step
-    public void selectLanguageShort(String lang) {
-        switch (lang) {
-            case ("uk"):
-                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(1) > .header__lang-short-name"))).click();
-                break;
-            case ("ru"):
-                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(2) > .header__lang-short-name"))).click();
-                break;
-            case ("en"):
-                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(3) > .header__lang-short-name"))).click();
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button:nth-of-type(3)"))).click();
                 break;
             default:
                 System.out.println("Invalid language code.");

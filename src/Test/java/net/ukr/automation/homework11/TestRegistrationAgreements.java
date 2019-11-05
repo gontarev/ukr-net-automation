@@ -13,7 +13,7 @@ public class TestRegistrationAgreements extends BaseTest {
     @Test
     @UseDataProvider(value = "localizationData", location = TestData.class)
     public void Test (LanguageData lang) {
-        app.selectRegistrationPageLanguageShort(lang.getLang());
+        app.selectRegistrationPageLanguage(lang.getLang());
         app.openPrivacyAgreementPage();
         app.comparePrivacyAgreementUrl(lang.getPrivacyAgreementUrl());
         app.comparePrivacyAgreementLogoImgSource(lang.getPrivacyAgreementLogoSource());

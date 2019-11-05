@@ -57,13 +57,8 @@ public class RegistrationApplication {
     }
 
     @Step
-    public void selectRegistrationPageLanguageLong(String lang) {
-        registrationPage.selectLanguageLong(lang);
-    }
-
-    @Step
-    public void selectRegistrationPageLanguageShort(String lang) {
-        registrationPage.selectLanguageShort(lang);
+    public void selectRegistrationPageLanguage(String lang) {
+        registrationPage.selectLanguage(lang);
     }
 
     @Step
