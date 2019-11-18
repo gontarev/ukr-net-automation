@@ -1,0 +1,6 @@
+{
+  "library": "rest-assured",
+  "modelPackage": "io.swagger.petstore.models",
+  "apiPackage": "io.swagger.petstore.api",
+  "invokerPackage": "io.swagger.petstore"
+}

@@ -4,14 +4,17 @@ buildscript {
     }
     dependencies {
         classpath "io.qameta.allure:allure-gradle:2.8.0"
+//        classpath "gradle.plugin.com.github.opengl-8080:assertjGen-gradle-plugin:2.0.0"
     }
 }
 
 plugins {
     id 'java'
+//    id 'org.hidetake.swagger.generator' version '2.18.1'
 }
 
 apply plugin: 'io.qameta.allure'
+//apply plugin: "com.github.opengl-BOBO.assertjGen2"
 
 group 'net.ukr.automation'
 version '0.1'
@@ -21,17 +24,40 @@ sourceCompatibility = 1.8
 repositories {
     mavenCentral()
     maven { url 'https://jitpack.io' }
+    jcenter()
 }
 
 dependencies {
     testImplementation group: 'junit', name: 'junit', version: '4.12'
+    implementation 'io.rest-assured:rest-assured:4.1.2'
+    implementation 'io.rest-assured:json-schema-validator:4.1.2'
     testImplementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
     testImplementation ("io.github.bonigarcia:webdrivermanager:3.7.1")
     testImplementation ('net.lightbody.bmp:browsermob-core:2.1.5')
             { exclude module: 'selenium' }
     testImplementation group: 'com.tngtech.java', name: 'junit-dataprovider', version: '1.12.0'
     testImplementation 'com.github.appium:java-client:7.2.0'
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.0'
+    implementation group: 'io.gsonfire', name: 'gson-fire', version: '1.8.3'
+    implementation group: 'org.threeten', name: 'threetenbp', version: '1.4.0'
+    implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.5.24'
+    implementation group: 'javax.annotation', name: 'javax.annotation-api', version: '1.3.2'
+    implementation group: 'com.squareup.okio', name: 'okio', version: '2.4.1'
+
+//    swaggerCodegen 'io.swagger:swagger-codegen-cli:2.4.2'             // Swagger Codegen V2
+//    swaggerCodegen 'org.openapitools:openapi-generator-cli:3.3.4'     // or OpenAPI Generator
 }
+
+//swaggerSources {
+//    petstore {
+//        inputFile = file('swagger.json')
+//        code {
+//            language = 'java'
+//            configFile = file('config.json')
+//        }
+//    }
+//}
 
 allure {
     autoconfigure = true
@@ -40,3 +66,23 @@ allure {
         version = '2.13.0'
     }
 }
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '5.1.1'
+}
+
+//assertjGen {
+//    packages = ['io.swagger.petstore.models']
+//    classes  = ['io.swagger.petstore.models.Pet']
+//    generateAssertionsForAllFields = false
+//    //package path for converting it to following outputDir
+//    targetDir  = 'src/main/java/'
+//    //dir were will be located assertions for entities class
+//    entryPointClassPackage = 'io.swagger.petstore.asserts'
+//    generateAssertionsInPackage = 'io.swagger.petstore.asserts'
+//    generateAssertions = true
+//    generateBddAssertions = false
+//    generateSoftAssertions = false
+//    generateJUnitSoftAssertions = false
+//
+//}
